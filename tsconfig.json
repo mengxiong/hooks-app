@@ -18,7 +18,7 @@
     "types": ["vite/client", "node"],
     "outDir": "./dist"
   },
-  "include": ["./src", "dist/host.js"],
+  "include": ["src", "prisma/*.ts", "dist/host.js"],
   "ts-node": {
     "compilerOptions": {
       "module": "commonjs"

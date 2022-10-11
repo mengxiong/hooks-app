@@ -1,14 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
-import { useAuth } from '@hlx/frame';
 import { Avatar, Box, Container, Typography } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from '@mui/lab';
-import { LoginDto } from '@hlx/dto';
-import { useMuiForm } from '@hlx/hooks';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Navigate, useLocation } from 'react-router-dom';
-
-import { login } from '../../api/auth';
+import { useMuiForm } from '../../hooks';
+import { useAuth } from '../../auth';
+import { login, LoginDto } from '../../api/auth';
 
 export function LoginPage() {
   const { signin, token } = useAuth();

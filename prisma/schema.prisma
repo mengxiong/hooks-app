@@ -1,30 +1,92 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
-}
-
-model Post {
   id        Int      @id @default(autoincrement())
+  phone     String   @unique
+  password  String
+  name      String   @default("")
+  role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+}
+
+model Textbook {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  title       String
+  description String    @default("")
+  cover       String    @default("")
+  platform    Platform  @default(ALL)
+  cost        Int       @default(0)
+  validDays   Int       @default(0)
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  units       Unit[]
+}
+
+model Unit {
+  id         Int        @id @default(autoincrement())
+  sort       Int        @default(0)
+  title      String
+  textbookId Int
+  textbook   Textbook   @relation(fields: [textbookId], references: [id])
+  sentences  Sentence[]
+}
+
+model Sentence {
+  id          Int         @id @default(autoincrement())
+  sort        Int         @default(0)
+  character   String?
+  content     String
+  translation String?
+  analysis    String?
+  image       String?
+  audio       String?
+  video       String?
+  completion  Completion?
+  choice      Choice?
+  unitId      Int
+  unit        Unit        @relation(fields: [unitId], references: [id])
+}
+
+model Completion {
+  id         Int      @id @default(autoincrement())
+  title      String
+  answer     String
+  file       String?
+  hintText   String?
+  hintFile   String?
+  sentenceId Int      @unique
+  sentence   Sentence @relation(fields: [sentenceId], references: [id])
+}
+
+model Choice {
+  id         Int      @id @default(autoincrement())
+  title      String
+  answer     String
+  options    String[]
+  file       String?
+  hintText   String?
+  hintFile   String?
+  sentenceId Int      @unique
+  sentence   Sentence @relation(fields: [sentenceId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Platform {
+  ALL
+  WEB
+  APP
 }

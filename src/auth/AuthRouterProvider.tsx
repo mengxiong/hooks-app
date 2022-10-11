@@ -5,7 +5,12 @@ import { AuthContext } from './AuthContext';
 
 const authLocalKey = 'auth_token';
 
-export function AuthRouterProvider({ routes }: { routes: RouteObject[] }) {
+export interface AuthRouterProviderProps {
+  routes: RouteObject[];
+  children?: React.ReactNode;
+}
+
+export function AuthRouterProvider({ routes, children }: AuthRouterProviderProps) {
   const [token, signin, signout] = useLocalStorage(authLocalKey);
 
   const value = useMemo(
@@ -19,6 +24,7 @@ export function AuthRouterProvider({ routes }: { routes: RouteObject[] }) {
 
   return (
     <AuthContext.Provider value={value}>
+      {children}
       <RouterProvider router={createHashRouter(routes)} />
     </AuthContext.Provider>
   );

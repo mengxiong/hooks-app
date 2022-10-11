@@ -1,6 +1,6 @@
 import { Toolbar, IconButton, Menu, MenuItem, Avatar, Divider, Link } from '@mui/material';
 import { useState } from 'react';
-import { useAuth } from '@hlx/frame';
+import { useAuth } from '../auth';
 
 export function Header({ children }: { children?: React.ReactNode }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

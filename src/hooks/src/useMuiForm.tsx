@@ -12,7 +12,7 @@ type Rule<Type, T> = { fieldType?: Type } & Pick<
 
 type TextFieldRule<T> = Rule<'textfield', T> & TextFieldProps;
 
-export function useMuiForm<T>({ items }: UseMuiFormProps<T>) {
+export function useMuiForm<T = any>({ items }: UseMuiFormProps<T>) {
   const { handleSubmit, control } = useForm<T>();
 
   const formItems = items.map(({ rules, name, defaultValue, fieldType, ...restProps }) => {

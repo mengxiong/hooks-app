@@ -5,11 +5,14 @@
   "scripts": {
     "start": "hooks start",
     "dev": "hooks dev",
-    "build": "hooks build"
+    "build": "hooks build",
+    "db:server": "docker-compose up",
+    "db:push": "prisma db push"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "@midwayjs/core": "^3.5.3",
     "@midwayjs/hooks": "^3.0.0",
     "@midwayjs/hooks-kit": "^3.0.0",
     "@midwayjs/koa": "^3.1.0",
@@ -19,7 +22,10 @@
     "@mui/material": "^5.10.8",
     "@prisma/client": "^4.4.0",
     "@tanstack/react-query": "^4.10.3",
+    "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.5",
+    "dotenv": "^16.0.3",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "notistack": "^3.0.0-alpha.7",
     "prisma": "^4.4.0",
@@ -35,6 +41,9 @@
   "devDependencies": {
     "@emotion/babel-plugin": "^11.9.2",
     "@emotion/eslint-plugin": "^11.7.0",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/lodash": "^4.14.186",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^1.1.3",
