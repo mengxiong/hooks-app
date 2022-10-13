@@ -1,11 +1,11 @@
-import { Modal } from '@hlx/components';
-import { useMuiForm } from '@hlx/hooks';
 import { Box, Button, MenuItem } from '@mui/material';
 import { Platform, Textbook } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { useDropzone } from 'react-dropzone';
 import { read, utils } from 'xlsx';
-import { textbookApi } from '../../api/textbook';
+import { useMuiForm } from '../../hooks';
+import { Modal } from '../../components';
+import { createTextbook } from '../../api/textbook';
 
 export interface CreateTextbookProps {
   open: boolean;
@@ -116,7 +116,7 @@ export function CreateTextbook({ open, onClose }: CreateTextbookProps) {
     ],
   });
 
-  const create = useMutation(textbookApi.create, {
+  const create = useMutation(createTextbook, {
     onSuccess() {},
   });
 
@@ -128,7 +128,7 @@ export function CreateTextbook({ open, onClose }: CreateTextbookProps) {
   async function handleFileAsync(file: File) {
     const data = await file.arrayBuffer();
     const workbook = read(data);
-    const arr = utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+    const arr: any[] = utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
     const unitsMap = new Map();
     for (let i = 0; i < arr.length; i++) {
       const item = arr[i];
@@ -161,7 +161,7 @@ export function CreateTextbook({ open, onClose }: CreateTextbookProps) {
   const submit = async () => {
     const units = await handleFileAsync(acceptedFiles[0]);
     handleSubmit((data) => {
-      create.mutate({ data: { ...data, units: { create: units } } });
+      create.mutate({ ...data, units: { create: units } });
     })();
   };
 

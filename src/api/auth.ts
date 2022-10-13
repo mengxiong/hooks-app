@@ -67,3 +67,19 @@ export const login = Api(
     return useTokens(user);
   }
 );
+
+export const refreshToken = Api(Post('/auth/refreshToken'), async (value: string) => {
+  try {
+    const tokenConfig = useConfig('jwt.token');
+    const refreshTokenConfig = useConfig('jwt.refreshToken');
+    const { id } = jwt.verify(value, refreshTokenConfig.secret) as { id: number };
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      throw new Error('用户不存在');
+    }
+    const accessToken = getToken(user, tokenConfig);
+    return { accessToken };
+  } catch (err: any) {
+    throw new httpError.UnauthorizedError(err?.message);
+  }
+});

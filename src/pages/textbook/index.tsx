@@ -1,14 +1,14 @@
-import { MxTable, MxTableCols } from '@hlx/components';
 import { Button, Chip, Stack } from '@mui/material';
 import { Textbook as TextbookData } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { textbookApi } from '../../api/textbook';
+import { MxTable, MxTableCols } from '../../components';
+import { getTextbooks } from '../../api/textbook';
 import { PageContainer } from '../../layout/PageContainer';
 import { CreateTextbook } from './CreateTextbook';
 
 export function Textbook() {
-  const { isLoading, error, data } = useQuery(['textbooks'], () => textbookApi.findAll());
+  const { isLoading, error, data } = useQuery(['textbooks'], getTextbooks);
   const [open, setOpen] = useState(false);
 
   const rows = data?.data;

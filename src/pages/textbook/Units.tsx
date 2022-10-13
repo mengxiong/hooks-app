@@ -1,16 +1,16 @@
-import { MxTable, MxTableCols } from '@hlx/components';
 import { Button, Chip, Stack } from '@mui/material';
 import { Textbook as TextbookData } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { textbookApi } from '../../api/textbook';
+import { MxTable, MxTableCols } from '../../components';
+import { getTextbook } from '../../api/textbook';
 import { PageContainer } from '../../layout/PageContainer';
 
 export function Units() {
   const { id } = useParams();
 
   const { isLoading, error, data } = useQuery(['textbookDetail', id], () =>
-    textbookApi.findOne(id)
+    getTextbook({ params: { id } })
   );
 
   const rows = data?.units;
